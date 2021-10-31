@@ -8,7 +8,7 @@ The UT Density Tracker is intended to be an easy viewable web app that allows us
 
 ### How is Density Determined?
 
-The density of a given building is determined by user inputted information. A would go to the site and click on `X` level of `Y` building. From there they can view the current density of the building but they also have the choice to submit a value between `[0.1 - 10]` on how dense that part of the building is. Multiple user inputs are appended to a list, where they're all totaled and averaged. 
+The density of a given building is determined by user inputted information. A user would go to the site and click on `X` level of `Y` building. From there they can view the current density of the building but they also have the choice to submit a value between `[0.1 - 10]` on how dense that part of the building is. Multiple user inputs are appended to a list, where they're all totaled and averaged. 
 
 ### Structure of our Code
 
