@@ -20,7 +20,7 @@ The main way our `main.py` file is organized is through: 1) *A Building Object*,
 - HTML
 - CSS
 
-### Post Project Notes
+### Post Project Notes:
 
 ##### (Kaylan):
 
