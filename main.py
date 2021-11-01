@@ -1,14 +1,9 @@
 #initializing
 import os
 import tkinter
-from flask import Flask, render_template,url_for
+from flask import Flask, render_template, url_for, redirect, request
+from flask_sqlalchemy import SQLAlchemy
 #import jyserver.Flask as jsf
-
-# FLASK NONSENSE
-app = Flask(__name__)
-@app.route('/')
-def index():
-  return render_template('buildings.html')
 
 # THE BUILDING OBJECT
 class Building:
@@ -61,7 +56,12 @@ PCL = Building("PCL", 6)
 GDC = Building("GDC", 8)
 SAC = Building("SAC", 5)
 
-buildings = [PCL, GDC, SAC]
+BLDG_SET = [PCL, GDC, SAC]
+
+def getBuilding(bldg_name):
+  for bldg in BLDG_SET:
+    if bldg_name == bldg.BLDG_NAME:
+      return bldg
 
 #@jsf.use(app)
 #class App:
@@ -70,8 +70,35 @@ buildings = [PCL, GDC, SAC]
 #    self.GDC = "GDC"
 #    self.SAC = "SAC"
 
-#  def setBuilding(self):
-#    self.my_building = self.js.event.target.id
+# FLASK NONSENSE
+app = Flask(__name__, template_folder='templates')
+app.config['SQLALCHEMY_DATABASE_URL'] = 'sqlite:///.db'
+db = SQLAlchemy(app)
+
+# Upon bootup this is the main page, redirects to building page
+@app.route('/')
+def index():
+    return redirect(url_for("buildingPage"))
+
+# Page where user chooses their building
+@app.route('/buildling', methods=["POST", "GET"])
+def buildingPage():
+  if request.method == "POST":
+    bldg = request.form['buttonBldg']
+    return redirect(url_for("floorPage", bldgName= bldg))
+  else:
+    return render_template('building.html')
+
+# Page where user chooses the floor they want to see of a Building
+@app.route('/floors.html/<bldgName>')
+def floorPage(bldgName):
+  currentBldg = getBuilding(bldgName)
+  floors = currentBldg.NUMFLOORS
+  return render_template('floors.html', content=bldgName, floorNums=floors)
+
+@app.route('/status.html')
+def busyPage():
+  return render_template('status.html')
 
 if __name__ == '__main__':
   app.run(debug=True)
