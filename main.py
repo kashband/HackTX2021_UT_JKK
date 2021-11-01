@@ -56,7 +56,12 @@ PCL = Building("PCL", 6)
 GDC = Building("GDC", 8)
 SAC = Building("SAC", 5)
 
-buildings = [PCL, GDC, SAC]
+BLDG_SET = [PCL, GDC, SAC]
+
+def getBuilding(bldg_name):
+  for bldg in BLDG_SET:
+    if bldg_name == bldg.BLDG_NAME:
+      return bldg
 
 #@jsf.use(app)
 #class App:
@@ -64,8 +69,6 @@ buildings = [PCL, GDC, SAC]
 #   self.PCL = "PCL"
 #    self.GDC = "GDC"
 #    self.SAC = "SAC"
-
-#  def setBuilding(self):
 
 # FLASK NONSENSE
 app = Flask(__name__, template_folder='templates')
@@ -82,17 +85,16 @@ def index():
 def buildingPage():
   if request.method == "POST":
     bldg = request.form['buttonBldg']
-    #print("I just clicked a button")
-    #print(bldg)
     return redirect(url_for("floorPage", bldgName= bldg))
   else:
     return render_template('building.html')
 
-
+# Page where user chooses the floor they want to see of a Building
 @app.route('/floors.html/<bldgName>')
 def floorPage(bldgName):
-  #buildingName = "GDC"
-  return render_template('floors.html', content=bldgName)
+  currentBldg = getBuilding(bldgName)
+  floors = currentBldg.NUMFLOORS
+  return render_template('floors.html', content=bldgName, floorNums=floors)
 
 @app.route('/status.html')
 def busyPage():
