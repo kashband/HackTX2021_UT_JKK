@@ -13,10 +13,10 @@
 
 **Post-HackTX:**
 
-- [] Chrome API Integration (Google Sheets?)
-- [] Store and display inputted user averages
-- [] Finish connecting all HTML files through Flask
-- [] Make an actual slider 
+- [ ] Chrome API Integration (Google Sheets?)
+- [ ] Store and display inputted user averages
+- [ ] Finish connecting all HTML files through Flask
+- [ ] Make an actual slider 
 
 ### What does it do?
 
