@@ -6,13 +6,31 @@
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans|Ubuntu" rel="stylesheet">
   </head>
     <body bgcolor="#fff">
-    <h>Current Status</h>
-    <p>This is the current busyness status </p>
-    <br>
+    
+    <h class="top">Current Status</h>
+    <p>This is the current busyness status of the {{thisBuilding}} on floor {{thisFloor}} </p>
+    <div class="expand" id="valueWrapper">
+      <p2 id="busyAvg"> {{ currentAverage }} </p2>
+    </div>
 
     <p>If you would like to contribute data please enter the information below:</p>
 
-  <form>
+  <!--<form>
     <label for="fname">On a scale of 1-10, how busy is it on this floor?</label><br>
     <input type="text" id="fname" name="fname"><br>
+  </form>-->
+
+  <form action="#" method="POST">
+    <div class='busySlider'> 
+      <p1 id="prompt"> On a scale of 1-10, how busy is it in the {{thisBuilding}}?</p1>
+      <input type="range" min="1.0" max="10.0" value="5.5" class="slider" step="0.5" id="busyRange" name="busyness">
+      <!--<input type="submit" value="submit" id="enterVal"/> -->
+    </div>
+    <div id="outputArea">
+      <label for="value" id ="valText"> Value: </label>
+      <p3 id="valDisplay">5.5</p3>
+    </div>
+    <input type="submit" value="submit" id="entervalue">
   </form>
+  <script src="{{ url_for('static', filename='js/slider.js') }}"></script>
+</body>
