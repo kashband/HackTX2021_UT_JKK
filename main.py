@@ -20,11 +20,13 @@ class Building:
   # Adds the user's busyness value to a list for a given building floor
   def addBusyNum(self, floor= 2, busyNum = 0):
     rFloor = floor - 1
-    for i in range(len(self.busynessList[floor])):
+
+    for i in range(len(self.busynessList[rFloor])):
+
       if self.busynessList[rFloor][i] == 0:
         self.busynessList[rFloor][i] = busyNum
         break
-      elif i == len(self.busynessList[floor]) - 1:
+      elif i == len(self.busynessList[rFloor]) - 1:
         self.busynessList[rFloor].append(busyNum)
         break
   
@@ -41,15 +43,28 @@ class Building:
 
   # Gets the average of all values on a floor
   def getAverage(self, floor = 2):
-    values = len(self.busynessList)
-    average = 0
     rFloor = floor - 1
-    if values != 0:
+    floorValues = len(self.busynessList[rFloor])
+    average = 0
+    
+    if floorValues > 0:
       total = 0
       for busyNum in self.busynessList[rFloor]:
-          total += busyNum
-      average = total / len(self.busynessList)
-    return average
+        total += float(busyNum)
+      average = total / floorValues
+      return average
+    return self.busynessList[rFloor][0]
+
+  # Return all values of a given floor as a string
+  def floorValues(self, floor = 1):
+    rFloor = floor - 1
+    valString = "[" + str(self.busynessList[rFloor][0])
+    
+    if (len(self.busynessList[rFloor]) > 0):
+      for index in range(len(self.busynessList[rFloor]) - 1):
+        valString = valString + ", " + str(self.busynessList[rFloor][index + 1])
+
+    return self.BLDG_NAME + str(floor) + ": " + valString + "]"
 
 #print("PCL INFO_____________")
 PCL = Building("PCL", 6)
@@ -63,13 +78,6 @@ def getBuilding(bldg_name):
     if bldg_name == bldg.BLDG_NAME:
       return bldg
 
-#@jsf.use(app)
-#class App:
-#  def __init__(self):
-#   self.PCL = "PCL"
-#    self.GDC = "GDC"
-#    self.SAC = "SAC"
-
 # FLASK NONSENSE
 app = Flask(__name__, template_folder='templates')
 app.config['SQLALCHEMY_DATABASE_URL'] = 'sqlite:///.db'
@@ -81,7 +89,7 @@ def index():
     return redirect(url_for("buildingPage"))
 
 # Page where user chooses their building
-@app.route('/buildling', methods=["POST", "GET"])
+@app.route('/building', methods=["POST", "GET"])
 def buildingPage():
   if request.method == "POST":
     bldg = request.form['buttonBldg']
@@ -90,15 +98,31 @@ def buildingPage():
     return render_template('building.html')
 
 # Page where user chooses the floor they want to see of a Building
-@app.route('/floors.html/<bldgName>')
+@app.route('/floors.html/<bldgName>', methods=["POST", "GET"])
 def floorPage(bldgName):
-  currentBldg = getBuilding(bldgName)
-  floors = currentBldg.NUMFLOORS
-  return render_template('floors.html', content=bldgName, floorNums=floors)
+  if request.method == "POST":
+    level = request.form['levelBtn']
+    return redirect(url_for("busyPage", bldgName = bldgName, floor = level))
+  else:
+    currentBldg = getBuilding(bldgName)
+    floors = currentBldg.NUMFLOORS
+    return render_template('floors.html', content=bldgName, floorNums=floors)
 
-@app.route('/status.html')
-def busyPage():
-  return render_template('status.html')
+# Page where user views or enters their own "busyness" stats
+@app.route('/status.html/<bldgName><floor>', methods=["POST", "GET"])
+def busyPage(bldgName, floor):
+  currentBldg = getBuilding(bldgName)
+  average = round(currentBldg.getAverage(int(floor)), 2)
+
+  if request.method == "POST":
+    myNum= request.form['busyness']
+    
+    currentBldg.addBusyNum(int(floor), myNum)
+    average = round(currentBldg.getAverage(int(floor)), 2)
+
+    return render_template('status.html', thisBuilding=bldgName, thisFloor=floor, currentAverage=average)
+  else:
+    return render_template('status.html', thisBuilding=bldgName, thisFloor=floor, currentAverage=average)
 
 if __name__ == '__main__':
   app.run(debug=True)
