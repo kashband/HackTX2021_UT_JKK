@@ -2,6 +2,22 @@
 
 ## By Kashif, Jessie, and Kaylan
 
+### Future Plans / Checklist
+
+**During HackTX:**
+
+- [x] Finish 'Building' Object (PYTHON) ~ Kaylan & Kashif
+- [x] Create HTML Templates (CSS & HTML) ~ Jessie
+- [x] Create a virtual environment & set up Flask ~ Kaylan
+- [x] Set up the devpost page / chrome api ~ Kashif
+
+**Post-HackTX:**
+
+- [ ] Chrome API Integration (Google Sheets?)
+- [ ] Store and display inputted user averages
+- [ ] Finish connecting all HTML files through Flask
+- [ ] Make an actual slider 
+
 ### What does it do?
 
 The UT Density Tracker is intended to be an easy viewable web app that allows users to view the density of a given level of a given building. Through this they can better decide their plans regarding where to study and sit down. This is especially important in the current day, as COVID remains an incredibly infectious disease. As such, knowing what areas are more or less dense gives people an extra way to plan their day.
