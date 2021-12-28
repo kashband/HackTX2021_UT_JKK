@@ -15,8 +15,8 @@
 
 - [ ] Chrome API Integration (Google Sheets?)
 - [ ] Store and display inputted user averages
-- [ ] Finish connecting all HTML files through Flask
-- [ ] Make an actual slider 
+- [x] Finish connecting all HTML files through Flask
+- [x] Make an actual slider 
 
 ### What does it do?
 
