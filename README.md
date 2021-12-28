@@ -35,6 +35,7 @@ The main way our `main.py` file is organized is through: 1) *A Building Object*,
 - Python
 - HTML
 - CSS
+- Javascript
 
 ### Post Project Notes:
 
